@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #219ebc;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #023047;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #8ecae6;
+        }
+        section {
+            padding: 20px;
+        }
+        #profile-overview {
+            background-color: #f0f4f8;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            margin-top: 0;
+        }
+        .card p {
+            margin: 5px 0;
+        }
+        
+ footer {
+     text-align: center;
+    padding: 20px 0;
+    background-color: #023047;
+    color: white;
+}
+
+footer a {
+    color: #8ecae6;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+} 
+.footer-text {
+    color: white;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome, [User Name]</h1>
+    </header>
+
+    <nav>
+        <a href="/public/prediction-form_1.html">Predict Dementia</a>
+        <a href="/public/recommendations.html">Personalized Recommendations</a>
+        <a href="/public/community.html">Community</a>
+        <a href="/public/game.html">Play Memory Match Game</a>
+        <a href="/public/chatBot.html">Chatbot</a>
+        <a href="/public/settings.html">Settings</a>
+    </nav>
+
+    <section id="profile-overview">
+        <h2>Profile Overview</h2>
+        <div class="card">
+            <h3>Personal Information</h3>
+            <p><strong>Name:</strong> [User Name]</p>
+            <p><strong>Email:</strong> [User Email]</p>
+            <p><strong>Age:</strong> [User Age]</p>
+            <p><strong>Gender:</strong> [User Gender]</p>
+        </div>
+        <div class="card">
+            <h3>Account Status</h3>
+            <p><strong>Status:</strong> Active</p>
+            <p><strong>Membership Plan:</strong> [Plan Type]</p>
+            <p><strong>Last Login:</strong> [Date]</p>
+        </div>
+        <div class="card">
+            <h3>Recent Activity</h3>
+            <p><strong>Last Prediction:</strong> [Date]</p>
+            <p><strong>Recent Recommendations:</strong> [Details or Link]</p>
+            <p><strong>Community Posts:</strong> [Number of Posts or Link]</p>
+        </div>
+        <div class="card">
+            <h3>Personal Metrics</h3>
+            <p><strong>Predictions Made:</strong> [Number]</p>
+            <p><strong>Recommendations Viewed:</strong> [Number]</p>
+            <p><strong>Community Interactions:</strong> [Number]</p>
+        </div>
+    </section>
+    <footer>   
+    <p class="footer-text">&copy; 2024 Harmony Group. All Rights Reserved.</p>
+    </footer>
+    </body>
+</html>

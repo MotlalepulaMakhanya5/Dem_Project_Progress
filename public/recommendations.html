@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Health Recommendations</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJ6sb8pocXaDao8L9I4XzK1dwjrMpLsAo&callback=initMap"
+        async defer></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #219ebc;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        #statusSelector,
+        #provinceSelector {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        #recommendations,
+        #mapContainer {
+            background-color: #fff;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #recommendations h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #219ebc;
+        }
+
+        #recommendations ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        #recommendations li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        #doctorInfo {
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        #doctorInfo p {
+            margin: 10px 0;
+            background-color: #e7f3fe;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Personalized Health Recommendations</h1>
+    </header>
+
+    <section id="statusSelector">
+        <label for="dementiaStatus">Select your status:</label>
+        <select id="dementiaStatus" onchange="showRecommendations()">
+            <option value="">--Select Status--</option>
+            <option value="demented">Demented</option>
+            <option value="converted">Converted</option>
+            <option value="nondemented">Non-Demented</option>
+        </select>
+    </section>
+
+    <section id="recommendations"></section>
+
+    <section id="provinceSelector" style="display: none;">
+        <label for="province">Select a province:</label>
+        <select id="province" onchange="showSpecialists()">
+            <option value="">--Select a Province--</option>
+            <option value="Gauteng">Gauteng</option>
+            <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+            <option value="Limpopo">Limpopo</option>
+            <option value="Mpumalanga">Mpumalanga</option>
+            <option value="Northern Cape">Northern Cape</option>
+            <option value="North West">North West</option>
+            <option value="Western Cape">Western Cape</option>
+            <option value="Free State">Free State</option>
+            <option value="Eastern Cape">Eastern Cape</option>
+        </select>
+    </section>
+
+    <section id="mapContainer" style="display: none;">
+        <div id="map"></div>
+        <div id="doctorInfo"></div>
+    </section>
+
+    <script>
+        let map;
+        let markers = [];
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: -30.5595, lng: 22.9375 },
+                zoom: 6
+            });
+        }
+
+        function showRecommendations() {
+            const status = document.getElementById('dementiaStatus').value;
+            const recommendationsDiv = document.getElementById('recommendations');
+            const provinceSelector = document.getElementById('provinceSelector');
+            const mapContainer = document.getElementById('mapContainer');
+
+            let recommendationsHTML = '';
+
+            switch (status) {
+                case 'demented':
+                    recommendationsHTML = `
+                        <h2>Recommendations for Demented Individuals</h2>
+                        <ul>
+                            <li>Establish daily routines to reduce confusion and anxiety.</li>
+                            <li>Create a safe home environment by removing tripping hazards and installing safety features.</li>
+                            <li>Encourage regular physical activity appropriate for their abilities.</li>
+                            <li>Provide cognitive stimulation through puzzles, music, or reminiscence therapy.</li>
+                            <li>Ensure proper nutrition and hydration.</li>
+                            <li>Maintain social connections and engage in meaningful activities.</li>
+                            <li>Consider professional in-home care or assisted living options.</li>
+                            <li>Regularly consult with healthcare providers for medication management and overall care.</li>
+                        </ul>
+                        <p>Please select a province below to find specialized doctors in your area.</p>
+                    `;
+                    provinceSelector.style.display = 'block';
+                    mapContainer.style.display = 'block';
+                    break;
+                case 'converted':
+                    recommendationsHTML = `
+                        <h2>Recommendations for Converted Individuals</h2>
+                        <ul>
+                            <li>Adhere strictly to prescribed medications and treatment plans.</li>
+                            <li>Engage in regular cognitive training exercises to maintain mental function.</li>
+                            <li>Maintain a healthy lifestyle with balanced diet and regular exercise.</li>
+                            <li>Stay socially active and maintain strong support networks.</li>
+                            <li>Monitor symptoms closely and report any changes to healthcare providers.</li>
+                            <li>Consider joining support groups for individuals with similar experiences.</li>
+                            <li>Plan for future care needs and discuss preferences with family members.</li>
+                            <li>Explore clinical trials or new treatment options with your doctor.</li>
+                        </ul>
+                    `;
+                    provinceSelector.style.display = 'none';
+                    mapContainer.style.display = 'none';
+                    break;
+                case 'nondemented':
+                    recommendationsHTML = `
+                        <h2>Recommendations for Non-Demented Individuals</h2>
+                        <ul>
+                            <li>Engage in regular physical exercise to promote overall health and brain function.</li>
+                            <li>Maintain a balanced diet rich in fruits, vegetables, and omega-3 fatty acids.</li>
+                            <li>Stay mentally active through learning new skills, reading, or solving puzzles.</li>
+                            <li>Prioritize quality sleep and manage stress through relaxation techniques.</li>
+                            <li>Stay socially engaged and maintain strong relationships.</li>
+                            <li>Avoid smoking and limit alcohol consumption.</li>
+                            <li>Regularly check blood pressure, cholesterol, and blood sugar levels.</li>
+                            <li>Consider preventive strategies like cognitive training or memory enhancement techniques.</li>
+                        </ul>
+                    `;
+                    provinceSelector.style.display = 'none';
+                    mapContainer.style.display = 'none';
+                    break;
+                default:
+                    recommendationsHTML = '<p>Please select a status to see recommendations.</p>';
+                    provinceSelector.style.display = 'none';
+                    mapContainer.style.display = 'none';
+            }
+
+            recommendationsDiv.innerHTML = recommendationsHTML;
+        }
+
+        function showSpecialists() {
+            const province = document.getElementById('province').value;
+            const doctorsByProvince = {
+                'Gauteng': [
+                    { name: "Dr. Alice Smith", lat: -26.2041, lng: 28.0473, address: "123 Main St, Johannesburg" },
+                    { name: "Dr. Bob Johnson", lat: -26.2041, lng: 28.0473, address: "456 Health St, Pretoria" },
+                    { name: "Dr. Carol Williams", lat: -26.3041, lng: 28.0542, address: "789 Wellness Rd, Sandton" },
+                    { name: "Dr. David Brown", lat: -26.1707, lng: 28.0367, address: "101 Healthy Way, Midrand" },
+                    { name: "Dr. Eve Martinez", lat: -26.1951, lng: 28.0296, address: "102 Community Rd, Centurion" },
+                    { name: "Dr. Frank White", lat: -26.0315, lng: 28.0794, address: "103 Liberty St, Roodepoort" },
+                    { name: "Dr. Grace Lee", lat: -26.0425, lng: 27.9756, address: "104 Harmony Ln, Vanderbijlpark" },
+                    { name: "Dr. Henry Green", lat: -26.1225, lng: 28.0477, address: "105 Freedom Ave, Alberton" },
+                    { name: "Dr. Isla Brooks", lat: -26.1861, lng: 28.0141, address: "106 Victory Rd, Germiston" },
+                    { name: "Dr. Jack Thompson", lat: -26.2582, lng: 27.9399, address: "107 Justice St, Benoni" }
+                ],
+                'KwaZulu-Natal': [
+                    { name: "Dr. Alice Smith", lat: -29.8587, lng: 31.0216, address: "123 Main St, Durban" },
+                    { name: "Dr. Bob Johnson", lat: -29.8611, lng: 31.0284, address: "456 Health St, Pietermaritzburg" },
+                    { name: "Dr. Carol Williams", lat: -30.4292, lng: 30.9958, address: "789 Wellness Rd, Umhlanga" },
+                    { name: "Dr. David Brown", lat: -29.7084, lng: 31.1121, address: "101 Healthy Way, Margate" },
+                    { name: "Dr. Eve Martinez", lat: -29.6055, lng: 31.1084, address: "102 Community Rd, Ballito" },
+                    { name: "Dr. Frank White", lat: -30.7461, lng: 30.4541, address: "103 Liberty St, Port Shepstone" },
+                    { name: "Dr. Grace Lee", lat: -30.7022, lng: 29.6111, address: "104 Harmony Ln, Kokstad" },
+                    { name: "Dr. Henry Green", lat: -29.8594, lng: 30.9639, address: "105 Freedom Ave, Dundee" },
+                    { name: "Dr. Isla Brooks", lat: -29.8811, lng: 30.4886, address: "106 Victory Rd, Ladysmith" },
+                    { name: "Dr. Jack Thompson", lat: -29.9646, lng: 30.8721, address: "107 Justice St, Newcastle" }
+                ],
+                'Limpopo': [
+                    { name: "Dr. Alice Smith", lat: -23.9045, lng: 29.4689, address: "123 Main St, Polokwane" },
+                    { name: "Dr. Bob Johnson", lat: -23.3879, lng: 30.167, address: "456 Health St, Tzaneen" },
+                    { name: "Dr. Carol Williams", lat: -23.0471, lng: 29.9038, address: "789 Wellness Rd, Mokopane" },
+                    { name: "Dr. David Brown", lat: -23.1046, lng: 30.433, address: "101 Healthy Way, Phalaborwa" },
+                    { name: "Dr. Eve Martinez", lat: -24.184, lng: 29.0097, address: "102 Community Rd, Lebowakgomo" },
+                    { name: "Dr. Frank White", lat: -22.3449, lng: 29.1444, address: "103 Liberty St, Lephalale" },
+                    { name: "Dr. Grace Lee", lat: -24.5861, lng: 30.763, address: "104 Harmony Ln, Hoedspruit" },
+                    { name: "Dr. Henry Green", lat: -22.939, lng: 30.4849, address: "105 Freedom Ave, Thohoyandou" },
+                    { name: "Dr. Isla Brooks", lat: -23.6755, lng: 30.1004, address: "106 Victory Rd, Giyani" },
+                    { name: "Dr. Jack Thompson", lat: -23.9045, lng: 29.4689, address: "107 Justice St, Polokwane" }
+                ],
+                'Mpumalanga': [
+                    { name: "Dr. Alice Smith", lat: -25.4745, lng: 30.9703, address: "123 Main St, Nelspruit" },
+                    { name: "Dr. Bob Johnson", lat: -26.4793, lng: 29.4637, address: "456 Health St, Ermelo" },
+                    { name: "Dr. Carol Williams", lat: -26.1604, lng: 28.8505, address: "789 Wellness Rd, Witbank" },
+                    { name: "Dr. David Brown", lat: -25.8333, lng: 31.1333, address: "101 Healthy Way, Hazyview" },
+                    { name: "Dr. Eve Martinez", lat: -26.5689, lng: 29.1052, address: "102 Community Rd, Secunda" },
+                    { name: "Dr. Frank White", lat: -25.9397, lng: 29.2701, address: "103 Liberty St, Middelburg" },
+                    { name: "Dr. Grace Lee", lat: -25.667, lng: 30.3333, address: "104 Harmony Ln, Sabie" },
+                    { name: "Dr. Henry Green", lat: -24.9271, lng: 30.9575, address: "105 Freedom Ave, Graskop" },
+                    { name: "Dr. Isla Brooks", lat: -25.4738, lng: 30.9703, address: "106 Victory Rd, Nelspruit" },
+                    { name: "Dr. Jack Thompson", lat: -25.3333, lng: 31.0333, address: "107 Justice St, White River" }
+                ],
+                'Northern Cape': [
+                    { name: "Dr. Alice Smith", lat: -28.4595, lng: 24.6622, address: "123 Main St, Kimberley" },
+                    { name: "Dr. Bob Johnson", lat: -28.7128, lng: 24.7551, address: "456 Health St, Upington" },
+                    { name: "Dr. Carol Williams", lat: -28.4548, lng: 21.2575, address: "789 Wellness Rd, Postmasburg" },
+                    { name: "Dr. David Brown", lat: -28.0381, lng: 24.7542, address: "101 Healthy Way, Springbok" },
+                    { name: "Dr. Eve Martinez", lat: -27.9956, lng: 24.065, address: "102 Community Rd, De Aar" },
+                    { name: "Dr. Frank White", lat: -29.0919, lng: 21.9787, address: "103 Liberty St, Upington" },
+                    { name: "Dr. Grace Lee", lat: -28.6469, lng: 22.9685, address: "104 Harmony Ln, Campbell" },
+                    { name: "Dr. Henry Green", lat: -28.4515, lng: 22.8145, address: "105 Freedom Ave, Victoria West" },
+                    { name: "Dr. Isla Brooks", lat: -28.6328, lng: 24.7581, address: "106 Victory Rd, Kimberley" },
+                    { name: "Dr. Jack Thompson", lat: -28.7162, lng: 24.7984, address: "107 Justice St, Kathu" }
+                ],
+                'North West': [
+                    { name: "Dr. Alice Smith", lat: -25.6696, lng: 27.2427, address: "123 Main St, Rustenburg" },
+                    { name: "Dr. Bob Johnson", lat: -25.6188, lng: 27.2305, address: "456 Health St, Klerksdorp" },
+                    { name: "Dr. Carol Williams", lat: -25.3405, lng: 27.2427, address: "789 Wellness Rd, Mahikeng" },
+                    { name: "Dr. David Brown", lat: -25.8865, lng: 27.2631, address: "101 Healthy Way, Brits" },
+                    { name: "Dr. Eve Martinez", lat: -25.7461, lng: 27.0814, address: "102 Community Rd, Potchefstroom" },
+                    { name: "Dr. Frank White", lat: -26.0597, lng: 27.4689, address: "103 Liberty St, Zeerust" },
+                    { name: "Dr. Grace Lee", lat: -25.5682, lng: 26.4513, address: "104 Harmony Ln, Mafikeng" },
+                    { name: "Dr. Henry Green", lat: -25.5667, lng: 26.0167, address: "105 Freedom Ave, Vryburg" },
+                    { name: "Dr. Isla Brooks", lat: -25.5586, lng: 26.225, address: "106 Victory Rd, Lichtenburg" },
+                    { name: "Dr. Jack Thompson", lat: -25.7267, lng: 27.3344, address: "107 Justice St, Delareyville" }
+                ],
+                'Western Cape': [
+                    { name: "Dr. Alice Smith", lat: -33.9249, lng: 18.4241, address: "123 Main St, Cape Town" },
+                    { name: "Dr. Bob Johnson", lat: -33.9157, lng: 18.4233, address: "456 Health St, Stellenbosch" },
+                    { name: "Dr. Carol Williams", lat: -33.9158, lng: 18.4233, address: "789 Wellness Rd, Bellville" },
+                    { name: "Dr. David Brown", lat: -33.9123, lng: 18.4234, address: "101 Healthy Way, Paarl" },
+                    { name: "Dr. Eve Martinez", lat: -34.0608, lng: 18.4877, address: "102 Community Rd, Somerset West" },
+                    { name: "Dr. Frank White", lat: -33.9245, lng: 18.4248, address: "103 Liberty St, George" },
+                    { name: "Dr. Grace Lee", lat: -33.9581, lng: 18.4874, address: "104 Harmony Ln, Knysna" },
+                    { name: "Dr. Henry Green", lat: -33.8932, lng: 18.4247, address: "105 Freedom Ave, Worcester" },
+                    { name: "Dr. Isla Brooks", lat: -33.9204, lng: 18.4256, address: "106 Victory Rd, Ceres" },
+                    { name: "Dr. Jack Thompson", lat: -34.0158, lng: 18.8617, address: "107 Justice St, Hermanus" }
+                ],
+                'Free State': [
+                    { name: "Dr. Alice Smith", lat: -28.8134, lng: 26.2270, address: "123 Main St, Bloemfontein" },
+                    { name: "Dr. Bob Johnson", lat: -28.9753, lng: 26.2302, address: "456 Health St, Welkom" },
+                    { name: "Dr. Carol Williams", lat: -28.6995, lng: 26.4404, address: "789 Wellness Rd, Kroonstad" },
+                    { name: "Dr. David Brown", lat: -29.0130, lng: 25.7551, address: "101 Healthy Way, Phuthaditjhaba" },
+                    { name: "Dr. Eve Martinez", lat: -28.5862, lng: 26.6613, address: "102 Community Rd, Harrismith" },
+                    { name: "Dr. Frank White", lat: -29.0970, lng: 26.2350, address: "103 Liberty St, Bethlehem" },
+                    { name: "Dr. Grace Lee", lat: -28.7555, lng: 26.2785, address: "104 Harmony Ln, Odendaalsrus" },
+                    { name: "Dr. Henry Green", lat: -28.4834, lng: 26.1678, address: "105 Freedom Ave, Theunissen" },
+                    { name: "Dr. Isla Brooks", lat: -28.6974, lng: 26.3137, address: "106 Victory Rd, Virginia" },
+                    { name: "Dr. Jack Thompson", lat: -28.8186, lng: 26.2370, address: "107 Justice St, Bultfontein" }
+                ],
+                'Eastern Cape': [
+                    { name: "Dr. Alice Smith", lat: -33.3158, lng: 27.5200, address: "123 Main St, East London" },
+                    { name: "Dr. Bob Johnson", lat: -33.0315, lng: 27.9122, address: "456 Health St, Mthatha" },
+                    { name: "Dr. Carol Williams", lat: -32.9594, lng: 27.7233, address: "789 Wellness Rd, Grahamstown" },
+                    { name: "Dr. David Brown", lat: -33.3594, lng: 27.9158, address: "101 Healthy Way, Port Elizabeth" },
+                    { name: "Dr. Eve Martinez", lat: -33.4847, lng: 27.0316, address: "102 Community Rd, Umtata" },
+                    { name: "Dr. Frank White", lat: -32.9117, lng: 27.4556, address: "103 Liberty St, Jeffreys Bay" },
+                    { name: "Dr. Grace Lee", lat: -33.0398, lng: 27.9110, address: "104 Harmony Ln, Colesberg" },
+                    { name: "Dr. Henry Green", lat: -33.7665, lng: 27.9272, address: "105 Freedom Ave, Stutterheim" },
+                    { name: "Dr. Isla Brooks", lat: -32.7768, lng: 27.7751, address: "106 Victory Rd, King William's Town" },
+                    { name: "Dr. Jack Thompson", lat: -32.7822, lng: 27.7885, address: "107 Justice St, Bisho" }
+                ],
+            };
+
+            const specialists = doctorsByProvince[province];
+            if (!specialists) return;
+
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+
+            const bounds = new google.maps.LatLngBounds();
+            specialists.forEach(doc => {
+                const marker = new google.maps.Marker({
+                    position: { lat: doc.lat, lng: doc.lng },
+                    map: map,
+                    title: doc.name
+                });
+                bounds.extend(marker.position);
+                markers.push(marker);
+            });
+            map.fitBounds(bounds);
+
+            let infoHTML = `<h2>Dementia Specialists in ${province}</h2><ul>`;
+            specialists.forEach(doc => {
+                infoHTML += `<li><strong>${doc.name}</strong><br>${doc.address}</li>`;
+            });
+            infoHTML += `</ul>`;
+            document.getElementById('doctorInfo').innerHTML = infoHTML;
+        }
+    </script>
+</body>
+
+</html>

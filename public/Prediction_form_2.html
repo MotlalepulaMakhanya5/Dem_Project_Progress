@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dementia Prediction Form</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .button-link {
+            display: inline-block;
+            background-color: #219ebc;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .button-link:hover {
+            background-color: #0277bd;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Predict Dementia Risk</h1>
+    </header>
+
+    <div class="form-container">
+        <h2>Dementia Risk Prediction</h2>
+        <p>Click the button below to go to the prediction app:</p>
+        <!-- Button that redirects to Flask app -->
+        <a href="https://predict-features-1.onrender.com/" class="button-link">Go to Prediction App</a>
+    </div>
+
+    <footer>
+        <p><a href="/public/dashboard.html">Back to Dashboard</a></p>
+    </footer>
+</body>
+
+</html>

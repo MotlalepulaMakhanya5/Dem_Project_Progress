@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Forum</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #219ebc;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        #main-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 1200px;
+            width: 100%;
+        }
+        #discussion-threads {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin: 10px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #023047;
+        }
+        .post {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+            position: relative;
+        }
+        .post:last-child {
+            border-bottom: none;
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .post-header h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #023047;
+        }
+        .post-header span {
+            font-size: 14px;
+            color: #888;
+        }
+        .post-content {
+            margin-top: 10px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .post-actions {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .post-actions button {
+            background-color: #219ebc;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .post-actions button:hover {
+            background-color: #0277bd;
+        }
+        .post-actions .delete-button {
+            background-color: #ff6f61;
+        }
+        .post-actions .delete-button:hover {
+            background-color: #d9534f;
+        }
+        .like-button.liked {
+            background-color: #ffb703;
+        }
+        .reply-section {
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 2px solid #219ebc;
+        }
+        .reply-section .reply {
+            margin-top: 10px;
+        }
+        .reply-section input[type="text"] {
+            width: calc(100% - 120px);
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        #new-post {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        #new-post textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        #new-post button {
+            align-self: flex-end;
+            background-color: #219ebc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #new-post button:hover {
+            background-color: #0277bd;
+        }
+        .nav-links {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #219ebc;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            #main-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Community Forum</h1>
+    </header>
+
+    <div id="main-container">
+        <section id="discussion-threads">
+            <h2>New Post</h2>
+            <div id="new-post">
+                <textarea placeholder="What's on your mind?"></textarea>
+                <button id="post-button">Post</button>
+            </div>
+
+            <h2>Recent Posts</h2>
+
+            <div id="posts-container">
+                <!-- Posts will be dynamically inserted here -->
+            </div>
+        </section>
+    </div>
+
+    <div class="nav-links">
+        <p><a href="/index.html">Back to Dashboard</a></p>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        if (!localStorage.getItem('loggedIn')) {
+            alert('Please log in to access the forum.');
+            window.location.href = 'login.html';
+        }
+
+        const username = localStorage.getItem('username');
+
+        document.getElementById('post-button').addEventListener('click', function() {
+            const postContent = document.querySelector('#new-post textarea').value;
+            if (postContent.trim()) {
+                const postElement = document.createElement('div');
+                postElement.classList.add('post');
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <h3>${username}</h3>
+                        <span>Just now</span>
+                    </div>
+                    <div class="post-content">${postContent}</div>
+                    <div class="post-actions">
+                        <button class="like-button">Like</button>
+                        <button class="reply-toggle">Reply</button>
+                        <button class="delete-button">Delete</button> <!-- Added delete button -->
+                    </div>
+                    <div class="reply-section" style="display: none;">
+                        <input type="text" placeholder="Write a reply...">
+                        <button class="reply-button">Post Reply</button>
+                    </div>
+                `;
+                document.getElementById('posts-container').prepend(postElement);
+                document.querySelector('#new-post textarea').value = '';
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('reply-toggle')) {
+                const replySection = event.target.closest('.post').querySelector('.reply-section');
+                replySection.style.display = replySection.style.display === 'none' ? 'block' : 'none';
+            }
+
+            if (event.target.classList.contains('reply-button')) {
+                const replyInput = event.target.closest('.reply-section').querySelector('input[type="text"]');
+                const replyContent = replyInput.value;
+                if (replyContent.trim()) {
+                    const replyElement = document.createElement('div');
+                    replyElement.classList.add('reply');
+                    replyElement.innerHTML = `    
+                        <strong>${username}</strong>: ${replyContent}
+                    `;
+                    event.target.closest('.reply-section').insertAdjacentElement('beforebegin', replyElement);
+                    replyInput.value = '';
+                }
+            }
+
+            if (event.target.classList.contains('like-button')) {
+                event.target.classList.toggle('liked');
+                const isLiked = event.target.classList.contains('liked');
+                event.target.textContent = isLiked ? 'Liked' : 'Like';
+            }
+
+            if (event.target.classList.contains('delete-button')) {
+                const post = event.target.closest('.post');
+                if (confirm('Are you sure you want to delete this post?')) {
+                    post.remove();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

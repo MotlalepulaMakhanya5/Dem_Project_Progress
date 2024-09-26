@@ -1,0 +1,303 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e0f7fa;
+    margin: 0;
+    padding: 0;
+    color: #023047;
+}
+
+header {
+    background-color: #219ebc;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+}
+
+nav {
+    background-color: #fb8500;
+    padding: 10px 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+    margin: 0 15px;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    background-color: #ffb703;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #023047;
+}
+
+section {
+    padding: 40px 20px;
+    margin: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2 {
+    color: #fb8500;
+    margin-bottom: 20px;
+    font-size: 2em;
+    border-bottom: 2px solid #219ebc;
+    padding-bottom: 10px;
+}
+
+p, ul, li {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #023047;
+}
+
+ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+button {
+    display: inline-block;
+    background-color: #219ebc;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #fb8500;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #023047;
+    color: white;
+}
+
+footer a {
+    color: #8ecae6;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Form Styles */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #023047;
+}
+
+input[type="text"],
+input[type="email"],
+textarea,
+input[type="password"],
+input[type="number"],
+select {
+    padding: 15px;
+    font-size: 1.1em;
+    border: 1px solid #8ecae6;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #219ebc;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+button[type="submit"] {
+    align-self: center;
+    width: 100%;
+}
+
+/* Chatbot and Community Section */
+#chatbot, #discussion-threads {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 2px;
+}
+
+#chatbot input[type="text"] {
+    width: calc(100% - 120px);
+    margin-right: 10px;
+    display: inline-block;
+}
+
+#chatbot button {
+    width: 100px;
+    display: inline-block;
+}
+
+.slogan {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #219ebc;
+}
+
+img {
+    margin-top: 20px;
+    width: 300px; /* Adjust the width as needed */
+    height: auto; /* Keep the aspect ratio */
+}
+ footer {
+     text-align: center;
+    padding: 20px 0;
+    background-color: #023047;
+    color: white;
+}
+
+footer a {
+    color: #8ecae6;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+} 
+.footer-text {
+    color: white;
+}
+
+#introduction, #benefits {
+    padding: 20px;
+    background-color: #f1f1f1; /* Light background for readability */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+#introduction h2, #benefits h2 {
+    font-size: 2em;
+    color: #219ebc; /* Blue color for headers */
+    border-bottom: 2px solid #023047; /* Darker blue border */
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+#introduction p, #benefits ul li {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #023047; /* Dark blue text color */
+}
+
+#benefits ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+#testimonials {
+    padding: 20px;
+    background-color: #f1f1f1; /* Light cyan background for a fresh look */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#testimonials h2 {
+    font-size: 2em;
+    color: #219ebc; /* Blue color for header */
+    border-bottom: 2px solid #023047; /* Darker blue border */
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.testimonial {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ffffff; /* White background for each testimonial */
+    border-left: 5px solid #fb8500; /* Accent color on the left */
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #023047; /* Dark blue text color */
+}
+
+.testimonial strong {
+    color: #fb8500; /* Accent color for names */
+}
+
+
+#recommendations {
+    padding: 20px;
+    background-color: #f1f1f1; /* Light cyan background for a fresh look */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#recommendations h2 {
+    font-size: 2em;
+    color: #219ebc; /* Blue color for header */
+    border-bottom: 2px solid #023047; /* Darker blue border */
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.recommendationsl {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ffffff; /* White background for each testimonial */
+    border-left: 5px solid #fb8500; /* Accent color on the left */
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.recommendationsl p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #023047; /* Dark blue text color */
+}
+
+.recommendations strong {
+    color: #fb8500; /* Accent color for names */
+}
